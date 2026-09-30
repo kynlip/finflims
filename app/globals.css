@@ -1,0 +1,565 @@
+@import "tailwindcss";
+
+/* Self-hosted fonts via @fontsource */
+:root {
+  --font-merriweather: "Merriweather", Georgia, serif;
+  --font-nunito: "Nunito", system-ui, -apple-system, sans-serif;
+}
+
+/* Apply fonts */
+body {
+  font-family: var(--font-nunito);
+}
+
+.font-serif {
+  font-family: var(--font-merriweather);
+}
+
+.font-sans {
+  font-family: var(--font-nunito);
+}
+
+/* Tailwind v4 custom variant for dark mode */
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-slide-up: slide-up 0.5s ease-out;
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%,
+    100% {
+      opacity: 0.5;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.8;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 0.4;
+      transform: scale(0.8);
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+
+  @keyframes spin-slow {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      transform: scale(0.8);
+      box-shadow: 0 0 0 0 rgba(var(--primary), 0.7);
+    }
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(var(--primary), 0);
+    }
+    100% {
+      transform: scale(0.8);
+      box-shadow: 0 0 0 0 rgba(var(--primary), 0);
+    }
+  }
+
+  @keyframes bounce-slight {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  --animate-pulse-ring: pulse-ring 2s infinite;
+  --animate-bounce-slight: bounce-slight 2s infinite ease-in-out;
+
+  --font-sans: var(--font-nunito);
+  --font-serif: var(--font-merriweather);
+}
+
+@font-face {
+  font-family: "hk4e";
+  src:
+    url(https://act-webstatic.hoyoverse.com/font_generate/m20251216hy2eoo3dvk_hk4e_global_vi-vn_114om2.woff2)
+      format("woff2"),
+    url(https://act-webstatic.hoyoverse.com/font_generate/m20251216hy2eoo3dvk_hk4e_global_vi-vn_114om2.woff)
+      format("woff");
+  font-display: swap;
+}
+
+/* Light Mode (Clean/Event Theme - Default) */
+:root {
+  color-scheme: dark; /* Force browser to render scrollbars and default background as dark */
+  --bg-pattern: none;
+  --background: #0b1221; /* Deep Cosmic Blue */
+  --foreground: #f3f0e6; /* Cream Text */
+
+  /* ... rest of variables ... */
+
+  /* Primary: Sky Blue / Cyan (Fresh, Hydro/Anemo style) */
+  --primary: #0ea5e9; /* Sky 500 */
+  --primary-foreground: #ffffff;
+
+  /* Secondary: Very Light Blue */
+  --secondary: #f0f9ff; /* Sky 50 */
+  --secondary-foreground: #0369a1; /* Sky 700 */
+
+  /* Muted: Cool Grays */
+  --muted: #f8fafc;
+  --muted-foreground: #64748b;
+
+  /* Accent: Gold (Stars/Decorations) - Kept for Genshin feel */
+  --accent: #fbbf24; /* Amber 400 */
+  --accent-foreground: #0f172a;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  /* UI Elements */
+  --border: #e0f2fe; /* Sky 100 */
+  --input: #ffffff;
+  --ring: #0ea5e9;
+
+  --radius: 1rem;
+
+  /* Custom Genshin Colors */
+  --genshin-cream: #ffffff;
+  --genshin-gold: #fbbf24;
+  --genshin-gold-light: #fcd34d;
+  --genshin-navy: #0f172a;
+  --genshin-navy-light: #334155;
+  --genshin-blue-glow: #38bdf8;
+
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+}
+
+/* Dot Pattern for Light Mode */
+:root {
+  --bg-pattern: radial-gradient(
+    #e0f2fe 2px,
+    transparent 2px
+  ); /* Slightly larger dots for visibility */
+}
+
+/* Dark Mode (Abyss/Menu Theme) */
+.dark {
+  --bg-pattern: none;
+  --background: #0b1221; /* Deep Cosmic Blue */
+  --foreground: #f3f0e6; /* Cream Text */
+
+  /* Primary & Accents */
+  --primary: #ffd700; /* Bright Gold */
+  --primary-foreground: #0b1221;
+
+  --secondary: #1a243b; /* Navy Light */
+  --secondary-foreground: #d4af68;
+
+  --muted: #1a243b;
+  --muted-foreground: #9ca3af;
+
+  --accent: #00f0ff; /* Cyan Glow */
+  --accent-foreground: #0b1221;
+
+  --destructive: #7f1d1d;
+  --destructive-foreground: #ffffff;
+
+  /* UI Elements */
+  --border: #374151; /* Darker border */
+  --input: #1a243b;
+  --ring: #d4af68;
+}
+
+html,
+body {
+  background-color: #0b1221; /* Immediate paint color */
+  color: var(--foreground);
+  background-image: var(--bg-pattern);
+  background-size: 24px 24px;
+  /* background-attachment: fixed; removed for performance */
+  font-family: var(--font-nunito), sans-serif;
+  overflow-x: hidden;
+  transition:
+    background-color 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    color 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-merriweather), serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6a5acd; /* Scrollbar primary */
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #374151;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f0d49e;
+}
+
+/* Custom Scrollbar for Search Results */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: var(--muted);
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--accent);
+}
+
+/* ============================================
+   TOAST NOTIFICATIONS - AVATAR UPLOAD
+   Thêm vào cuối file globals.css
+   ============================================ */
+
+/* ============================================
+   3D ANIME WEB - GLOBAL STYLES FOR 3D EXPERIENCE
+   ============================================ */
+
+/* Keep the document scrollable on Safari/iOS. The decorative canvas is fixed
+   behind the page and must never own the touch/scroll gesture. */
+body {
+  min-height: 100%;
+  background-color: #0b1221 !important;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior-x: none;
+}
+
+/* 3D Canvas Layer */
+#three-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100dvh;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* HTML Content on top of 3D */
+.three-content-layer {
+  position: relative;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.three-content-layer > * {
+  pointer-events: auto;
+}
+
+/* Anime Neon Glow Effects */
+.neon-text {
+  text-shadow:
+    0 0 5px #a5b4fc,
+    0 0 10px #a5b4fc,
+    0 0 20px #c084fc,
+    0 0 40px #67e8f9;
+}
+
+.glass-panel {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(165, 180, 252, 0.2);
+  box-shadow: 0 8px 32px rgba(103, 232, 249, 0.1);
+}
+
+/* Floating Card Hover Animation (for transition to 3D cards) */
+.movie-card-3d {
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transform-style: preserve-3d;
+}
+
+.movie-card-3d:hover {
+  transform: translateY(-12px) rotateX(12deg) rotateY(18deg) scale(1.04);
+  box-shadow: 0 30px 60px -15px rgb(165 180 252 / 0.5);
+}
+
+/* Toast Notifications */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.animate-fade-out {
+  animation: fadeOut 0.3s ease-out;
+}
+
+/* Custom media player layout and fullscreen fallbacks. */
+.video-player-shell:fullscreen,
+.video-player-shell:-webkit-full-screen {
+  width: 100vw;
+  max-width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100dvh;
+  aspect-ratio: auto;
+  border-width: 0;
+  border-radius: 0;
+}
+
+.video-player-shell:fullscreen video,
+.video-player-shell:fullscreen iframe,
+.video-player-shell:-webkit-full-screen video,
+.video-player-shell:-webkit-full-screen iframe {
+  width: 100%;
+  height: 100%;
+}
+
+.video-player-shell:fullscreen .video-player-controls-inner,
+.video-player-shell:-webkit-full-screen .video-player-controls-inner {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.video-player-controls-inner {
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+}
+
+.video-player-progress input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  outline: none;
+}
+
+.video-player-progress input[type="range"]::-webkit-slider-runnable-track {
+  height: 100%;
+  background: transparent;
+  border: 0;
+}
+
+.video-player-progress input[type="range"]::-moz-range-track {
+  height: 100%;
+  background: transparent;
+  border: 0;
+}
+
+.video-player-progress input[type="range"]::-webkit-slider-thumb {
+  width: 100%;
+  height: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: 0;
+}
+
+.video-player-progress input[type="range"]::-moz-range-thumb {
+  width: 100%;
+  height: 100%;
+  appearance: none;
+  background: transparent;
+  border: 0;
+}
+
+.video-player-progress:focus-within {
+  outline: none;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.safe-area-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (min-width: 640px) {
+  .video-player-controls-inner {
+    padding-bottom: 1rem;
+  }
+}
+
+/* Hero slider progress bar (moved out of styled-jsx to keep the hero light) */
+@keyframes hero-progress {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-progress {
+  animation: hero-progress linear forwards;
+}
+
+@keyframes episode-playing-bar {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scaleY(0.35);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+}
+
+.episode-playing-bar {
+  animation: episode-playing-bar 0.75s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+/*
+ * Skip layout/paint for offscreen homepage sections. The homepage stacks 14+
+ * movie rows; without this the browser lays out and paints every poster grid on
+ * first render, which is what stalls older iPhones.
+ */
+.cv-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 520px;
+}
+
+/* Ẩn thanh cuộn nhưng vẫn cuộn được (tab server / tab dải tập) */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

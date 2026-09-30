@@ -1,0 +1,341 @@
+HUONG DAN DEPLOY LEN VERCEl
+=============================
+
+I. CHUAN BI
+-----------
+
+1. Tao repo GitHub
+   - Tao repo moi tren GitHub (private/public tuy chon)
+   - Khong can tao README, .gitignore (da co san)
+
+2. Cai dat Git (neu chua co)
+   - Kiem tra: git --version
+   - Neu chua co: winget install Git.Git
+
+II. PUSH CODE LEN GITHUB
+------------------------
+
+QUAN TRONG:
+- Chi push SOURCE CODE, KHONG push node_modules hay .next
+- Vercel se tu dong chay npm install va npm run build
+- Khong can chay build local
+
+1. Kiem tra .gitignore
+   - Mo file .gitignore
+   - PHAI co cac dong nay:
+     node_modules/
+     .next/
+     out/
+     .vercel/
+     *.log
+     .env.local
+     .env.production
+
+   -> DA CO SAN trong project, khong can them
+
+2. Xoa node_modules va .next khoi git tracking (neu da tung commit)
+   - Neu chua tung git add/commit, bo qua buoc nay
+   - Neu da tung commit, chay:
+     git rm -r --cached node_modules
+     git rm -r --cached .next
+     git commit -m "Remove node_modules and .next from tracking"
+
+3. Khoi tao git trong project (neu chua co git)
+   cd E:\finflim
+   git init
+   git add .
+   git commit -m "Initial commit - deploy to Vercel"
+
+4. Them remote va push
+   git remote add origin https://github.com/<username>/<repo-name>.git
+   git branch -M main
+   git push -u origin main
+
+Luu y:
+- Chi push file source: .ts, .tsx, .json, .js, .css, public/, next.config.ts, package.json, package-lock.json
+- KHONG push: node_modules/, .next/, .env.local
+- .gitignore da cau hinh san, git se tu dong bo qua cac thu muc nay
+
+III. TAO PROJECT TREN VERCEl
+-----------------------------
+
+QUAN TRONG: Vercel tu dong build, khong can chay npm install hay npm run build o local
+
+1. Dang nhap Vercel
+   - Vao https://vercel.com/new
+   - Dang nhap bang GitHub account
+
+2. Import project
+   - Chon "Import Git Repository"
+   - Chon repo vua tao
+   - Click "Import"
+
+3. Cau hinh build (de mac dinh, khong can chinh sua)
+   - Framework Preset: Next.js (tu dong detect)
+   - Build Command: npm run build (Vercel tu chay)
+   - Output Directory: .next (tu dong)
+   - Install Command: npm install (Vercel tu chay)
+   - Click "Deploy"
+
+   -> Vercel se:
+      1. Clone code tu GitHub
+      2. Chay npm install
+      3. Chay npm run build
+      4. Deploy len CDN
+
+   -> Ban chi can doi cho deploy xong, khong can build local
+
+IV. CAU HINH ENVIRONMENT VARIABLES
+-----------------------------------
+
+Vao Vercel Dashboard -> Project Settings -> Environment Variables
+
+Them cac bien nay (Production):
+
+| Key | Value |
+|-----|-------|
+| NODE_ENV | production |
+| AUTH_SECRET | <AUTH_SECRET> |
+| AUTH_URL | https://phimhayhonro.net |
+| AUTH_TRUST_HOST | true |
+| NEXT_PUBLIC_APP_URL | https://phimhayhonro.net |
+| NEXT_PUBLIC_APP_VERSION | v0.0.1 |
+| NEXT_PUBLIC_BUILD_TIME | 2026-08-17T15:24:17.933Z |
+| MONGODB_URI | mongodb+srv://user:pass@cluster0.mongodb.net/captainmedia |
+| MONGODB_DB_NAME | captainmedia |
+| AUTH_GOOGLE_ID | <GOOGLE_CLIENT_ID> |
+| AUTH_GOOGLE_SECRET | <GOOGLE_CLIENT_SECRET> |
+| NEXT_PUBLIC_TURNSTILE_SITE_KEY | <TURNSTILE_SITE_KEY> |
+| TURNSTILE_SECRET_KEY | <TURNSTILE_SECRET_KEY> |
+| RATE_LIMIT_REGISTER | 5 |
+| RATE_LIMIT_LOGIN | 10 |
+| CRON_API_KEY | Anime2026CronVipKey |
+| SEPAY_WEBHOOK_SECRET | <SEPAY_WEBHOOK_SECRET> |
+| SEPAY_ENV | sandbox |
+| SEPAY_API_TOKEN | <SEPAY_API_TOKEN> |
+| SEPAY_API_URL | https://userapi.sepay.vn/v2 |
+| SEPAY_ENFORCE_IP_WHITELIST | false |
+
+Luu y:
+- Thay the MONGODB_URI bang connection string tu MongoDB Atlas
+- Tat ca bien deu chon "Production" environment
+- Click "Save" sau khi them tung bien
+
+QUAN TRONG VE BUILD:
+- KHONG can chay npm install hay npm run build o local
+- Vercel tu dong build tren server
+- Chi can push source code len GitHub
+
+V. CAU HINH MONGODB ATLAS
+--------------------------
+
+1. Tao cluster
+   - Vao https://www.mongodb.com/atlas
+   - Dang ky/Dang nhap
+   - Chon "Create" -> "Build a Database"
+   - Chon "M0 Sandbox" (mien phi)
+   - Chon region gan Viet Nam nhat (Singapore)
+   - Tao cluster
+
+2. Tao database user
+   - Vao "Database Access"
+   - "Add New Database User"
+   - Username: admin
+   - Password: [tao password manh]
+   - Quyen: Read and write to any database
+
+3. Whitelist IP
+   - Vao "Network Access"
+   - "Add IP Address"
+   - Them IP: 0.0.0.0/0 (cho phep tat ca IP)
+   - Hoac them IP cua may tinh de import du lieu
+
+4. Lay connection string
+   - Vao "Database" -> "Connect"
+   - Chon "Connect your application"
+   - Copy connection string, vi du:
+     mongodb+srv://admin:password@cluster0.mongodb.net/captainmedia?retryWrites=true&w=majority
+   - Thay password thuc te vao
+
+5. Cap nhat Vercel
+   - Quay lai Vercel -> Environment Variables
+   - Cap nhat MONGODB_URI bang connection string Atlas
+
+VI. IMPORT DU LIEU LEN ATLAS
+-----------------------------
+
+1. Cach 1: Import tu local (khuyen nghi)
+   cd E:\finflim\code
+
+   - Cap nhat MONGODB_URI trong scripts/restore-backup.mjs:
+     Thay doi URI bang connection string Atlas
+
+   - Chay script import:
+     node scripts/restore-backup.mjs
+
+   - Tao admin user:
+     node scripts/setup-admin.mjs
+
+2. Cach 2: Import tu MongoDB Compass
+   - Download MongoDB Compass
+   - Connect bang connection string Atlas
+   - Import tung file JSON:
+     + kkphim.json -> collection kkphim
+     + users.json -> collection users
+     + lichsu.json -> collection lichsu
+     + reviews.json -> collection reviews
+     + yeuthich.json -> collection yeuthich
+     + settings.json -> collection settings
+     + site_settings.json -> collection settings
+     + recharge_orders.json -> collection recharge_orders
+     + sepay_transactions.json -> collection sepay_transactions
+     + logs.json -> collection logs
+     + init_check.json -> collection init_check
+
+VII. DEPLOY LAI SAU KHI CAU HINH
+----------------------------------
+
+1. Trigger deploy moi
+   - Vao Vercel Dashboard
+   - Click "Deploy" -> "Deploy Production"
+   - Hoac push commit moi len GitHub
+
+2. Cho deploy hoan tat
+   - Thoi gian thuong: 2-5 phut
+   - Xem logs neu co loi
+
+3. Truy cap web
+   - Vercel cung cap domain mien phi:
+     https://<project-name>.vercel.app
+   - Hoac dung domain rieng: https://phimhayhonro.net
+
+VIII. CONNECT DOMAIN RIENG
+----------------------------
+
+1. Them domain vao Vercel
+   - Vao Project Settings -> Domains
+   - Them domain: phimhayhonro.net
+   - Vercel se hien thi DNS can cau hinh
+
+2. Cau hinh DNS tai Namecheap
+   - Dang nhap Namecheap
+   - Vao Domain List -> Manage -> Advanced DNS
+   - Them cac record:
+     + Type: A, Host: @, Value: 76.76.21.21, TTL: Automatic
+     + Type: CNAME, Host: www, Value: cname.vercel-dns.com, TTL: Automatic
+
+   Hoac dung Nameserver:
+   - Thay DNS thanh:
+     + dns1.vercel-dns.com
+     + dns2.vercel-dns.com
+
+3. Cho propogation
+   - Thoi gian: 5 phut - 2 gio
+   - Kiem tra: https://dnschecker.org
+
+4. Tao SSL certificate
+   - Vercel tu dong cap phat SSL khi domain da tro ve dung IP
+   - Khong can cau hinh thu cong
+
+IX. CAU HINH GOOGLE OAUTH CHO DOMAIN THAT
+------------------------------------------
+
+1. Cap nhat Authorized redirect URIs
+   - Vao Google Cloud Console -> Credentials
+   - Chon OAuth 2.0 Client ID
+   - Them URI:
+     + https://phimhayhonro.net/api/auth/callback/google
+     + https://<project-name>.vercel.app/api/auth/callback/google (neu can)
+
+2. Cap nhat OAuth consent screen
+   - Them domain phimhayhonro.net vao
+   - Hoac chuyen sang Production mode
+
+X. CAU HINH CLOUDFLARE (TUI CHON)
+-----------------------------------
+
+Neu dung Cloudflare cho domain:
+
+1. Cau hinh DNS
+   - Type: A, Name: @, Content: 76.76.21.21, Proxy: ON (mau cam)
+   - Type: CNAME, Name: www, Content: cname.vercel-dns.com, Proxy: ON
+
+2. SSL/TLS
+   - Mode: Full (strict)
+   - Origin CA: Dung Origin Certificate tu Cloudflare
+
+3. Caching
+   - Tien ich: Cache Everything
+   - TTL: 1 ngay
+   - Bypass cache cho: /api/*, /nhanconan/*
+
+4. Security
+   - Bat "I'm Under Attack" mode neu gap DDoS
+   - Cai dat WAF rules neu can
+
+XI. TIEU CHI KIEM TRA SAU KHI DEPLOY
+--------------------------------------
+
+1. Kiem tra trang chuyen
+   - Mo https://phimhayhonro.net
+   - Kiem tra trang load dung
+   - Kiem tra danh sach phim hien thi
+
+2. Kiem tra admin
+   - Mo https://phimhayhonro.net/nhanconan/login
+   - Dang nhap: admin / admin123
+   - Kiem tra admin panel hien thi
+
+3. Kiem tra MongoDB
+   - Kiem tra ket noi MongoDB Atlas
+   - Xem du lieu da import dung chua
+
+4. Kiem tra Google OAuth
+   - Thu dang nhap bang Google
+   - Kiem tra redirect dung
+
+5. Kiem tra SSL
+   - Kiem tra chung chi SSL hop le
+   - Kiem tra HTTPS redirect tu HTTP
+
+XII. CAC VAN DE THUONG GAP
+---------------------------
+
+1. Loi "MongoDB connection failed"
+   - Kiem tra MONGODB_URI dung chua
+   - Kiem tra IP whitelist trong Atlas
+   - Kiem tra database user/password
+
+2. Loi "Google OAuth redirect URI mismatch"
+   - Them dung URI vao Google Cloud Console
+   - Kiem tra AUTH_URL dung chua
+
+3. Loi "Build failed"
+   - Kiem tra logs trong Vercel
+   - Kiem tra npm install thanh cong
+   - Kiem tra next.config.ts hop le
+
+4. Loi "Function timeout"
+   - Vercel Free: 10s limit
+   - Vercel Pro: 60s limit
+   - Toi uu query MongoDB
+
+5. Du lieu khong hien thi
+   - Kiem tra da import du lieu len Atlas chua
+   - Kiem tra MongoDB connection string
+   - Kiem tra collection names dung chua
+
+XIII. LUA CHON VERCEl PLAN
+----------------------------
+
+- Free: Du cho test, traffic thap (<100k requests/thang)
+- Pro ($20/thang): Cho production, traffic cao, can timeout 60s
+- Enterprise: Doanh nghiep, can ho tro rieng
+
+XIV. TAI LIEU THAM KHAO
+------------------------
+
+- Vercel Docs: https://vercel.com/docs
+- Next.js Deploy: https://nextjs.org/docs/app/guides/deployment
+- MongoDB Atlas: https://docs.atlas.mongodb.com
+- Google OAuth: https://developers.google.com/identity/protocols/oauth2

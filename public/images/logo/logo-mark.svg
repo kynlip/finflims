@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Phim Hay Hơn Rổ</title>
+  <desc id="desc">Biểu tượng clapperboard với nút phát</desc>
+  <defs>
+    <linearGradient id="surface" x1="64" y1="48" x2="448" y2="464" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#27303a" />
+      <stop offset="1" stop-color="#151b24" />
+    </linearGradient>
+    <linearGradient id="gold" x1="142" y1="106" x2="370" y2="410" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffd878" />
+      <stop offset="1" stop-color="#f2b84d" />
+    </linearGradient>
+    <clipPath id="clapstick-clip">
+      <path d="M126 173 374 137l10 59-248 36Z" />
+    </clipPath>
+  </defs>
+
+  <rect x="18" y="18" width="476" height="476" rx="124" fill="url(#surface)" />
+  <circle cx="256" cy="256" r="174" fill="url(#gold)" />
+
+  <path d="m152 250 252 0v172c0 12-10 22-22 22H174c-12 0-22-10-22-22Z" fill="#e29457" opacity="0.85" transform="translate(12 13)" />
+  <path d="m140 237 252 0v172c0 12-10 22-22 22H162c-12 0-22-10-22-22Z" fill="#303844" stroke="#222a35" stroke-width="8" />
+  <path d="m152 253 228 0v136H152Z" fill="#202733" />
+  <path d="m152 253 228 0v28H152Z" fill="#4e5866" />
+
+  <path d="M126 173 374 137l10 59-248 36Z" fill="#3c4551" stroke="#222a35" stroke-width="8" stroke-linejoin="round" />
+  <g clip-path="url(#clapstick-clip)">
+    <path d="m94 190 32-5 84 59-32 5Z" fill="#f9edcf" />
+    <path d="m157 180 32-5 84 59-32 5Z" fill="#f9edcf" />
+    <path d="m220 171 32-5 84 59-32 5Z" fill="#f9edcf" />
+    <path d="m283 162 32-5 84 59-32 5Z" fill="#f9edcf" />
+  </g>
+
+  <path d="m126 173 28 30-10 59-28-30Z" fill="#414b59" stroke="#222a35" stroke-width="8" />
+  <circle cx="136" cy="196" r="7" fill="#f4d69a" />
+  <circle cx="132" cy="239" r="7" fill="#f4d69a" />
+
+  <circle cx="266" cy="321" r="53" fill="#222a35" stroke="#f5d8a2" stroke-width="7" />
+  <path d="m249 289 54 32-54 32Z" fill="#ffe7b1" />
+  <path d="M184 373h148M215 373v17m86-17v17" fill="none" stroke="#f5d8a2" stroke-width="5" />
+</svg>
