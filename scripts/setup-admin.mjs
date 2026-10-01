@@ -19,17 +19,9 @@ for (const file of ['.env.local', '.env.production']) {
 const rawUri = process.env.MONGODB_URI || 'mongodb://localhost:27017';
 const dbName = process.env.MONGODB_DB_NAME || 'captainmedia';
 
-let uri = rawUri;
-if (process.env.MONGODB_URI) {
-  try {
-    const tmp = new MongoClient(rawUri);
-    await tmp.connect();
-    await tmp.db('admin').command({ ping: 1 });
-    await tmp.close();
-  } catch {
-    uri = 'mongodb://localhost:27017';
-  }
-}
+const uri = rawUri;
+
+console.log('Dang ket noi den:', uri.replace(/\/\/.*@/, '//***@'));
 
 const client = new MongoClient(uri);
 await client.connect();

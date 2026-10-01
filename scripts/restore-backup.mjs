@@ -79,8 +79,11 @@ for (const [fileName, collName] of Object.entries(COLLECTION_MAP)) {
       continue;
     }
 
-    const result = await db.collection(collName).insertMany(cleaned, { ordered: false });
-    console.log(`OK     inserted ${result.insertedCount} docs (${collName})`);
+    const result = await db.collection(collName).deleteMany({});
+    console.log(`XOA   ${collName} (${result.deletedCount} docs)`);
+
+    const insertResult = await db.collection(collName).insertMany(cleaned, { ordered: false });
+    console.log(`OK     inserted ${insertResult.insertedCount} docs (${collName})`);
   } catch (err) {
     console.error(`FAIL   ${fileName} -> ${collName}: ${err.message}`);
   }
